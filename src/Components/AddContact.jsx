@@ -71,7 +71,7 @@ function AddContact({ showAddContact, handleCloseAddContact }) {
           <button className="btn btn-secondary" onClick={handleCloseAddContact}>Close</button>
           {/* Maybe this could do it with Router */}
           <a href="#" onClick={handleCloseAddContact} style={{ textDecoration: 'underline', cursor: 'pointer' }}>
-              Back to Contacts
+            Back to Contacts
           </a>
         </div>
       </div>
