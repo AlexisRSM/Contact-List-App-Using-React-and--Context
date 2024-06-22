@@ -6,11 +6,23 @@ import './App.css'
 import Contacts from './Components/Contacts'
 /* import TalkToAPI from './Components/Talk_to_API' */
 import MyContext from './Context/Context'
+import AddContact from './Components/AddContact'
 
 //-----------------------------------Fetch Data-------------------------------------------------
 function App() {
   const URL = "https://playground.4geeks.com/contact/agendas/Ralfe"; 
   const [contacts,setContacts]= useState([]);
+
+  //AddContact.jsx handlers 
+  const [showAddContact, setShowAddContact] = useState(false);
+
+  const handleShowAddContact = () => {
+      setShowAddContact(true);
+  };
+
+  const handleCloseAddContact = () => {
+      setShowAddContact(false);
+  };
 
   async function fetchData () {
     try{
@@ -33,6 +45,7 @@ function App() {
     }catch(error) {
         console.log("On FetchData Fuction: ",error);
     }
+  }
 
     useEffect(()=>{
       fetchData();
@@ -40,12 +53,13 @@ function App() {
     },[])
   return (
     <>
-      <MyContext.Provider value={{contacts,setContacts}}>
+      <MyContext.Provider value={{contacts,setContacts,showAddContact, setShowAddContact,handleShowAddContact,handleCloseAddContact}}>
         <Contacts/>
-      
+
+        <AddContact/>
       </MyContext.Provider>
     </>
   )
-}}
+}
 
 export default App;
