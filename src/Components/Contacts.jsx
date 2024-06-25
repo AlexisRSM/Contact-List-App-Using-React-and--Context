@@ -23,9 +23,9 @@ function Contacts() {
 
 
     const {contacts,setContacts}=useContext(MyContext);
-    let array_names=[{name: "Ralfe Mendes", age: 26},{name:"Ines Mendes",age:28}];
+   /*  let array_names=[{name: "Ralfe Mendes", age: 26},{name:"Ines Mendes",age:28}]; */
 
-console.log("Did I get my Data?",contacts);
+/* console.log("Did I get my Data?",contacts); */
     
     return ( 
         <>
@@ -45,7 +45,7 @@ console.log("Did I get my Data?",contacts);
                     </div>
                     <div className="col-3">
                         <h5>
-                            {person.name}
+                            {person.name}  {/* genarete randooom key somewhere */}
                         </h5>
                         <p>
                             <i className="bi bi-geo-alt-fill"> {person.address}</i>
@@ -54,7 +54,7 @@ console.log("Did I get my Data?",contacts);
                             <i className="bi bi-phone"> {person.phone}</i>
                         </p>
                         <p>
-                        <i class="bi bi-envelope-at"> {person.email}</i>
+                        <i className="bi bi-envelope-at"> {person.email}</i>
                         </p>
                     </div>
                     <div className="col-3"></div>

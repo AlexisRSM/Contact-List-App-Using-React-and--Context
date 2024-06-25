@@ -1,6 +1,17 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import MyContext from '../Context/Context';
+import { useContext } from 'react';
 
 function AddContact({ showAddContact, handleCloseAddContact }) {
+  //State for Form
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    address: '', 
+  });
+  //Post Method Unpacking
+  const {postData,fetchData} = useContext(MyContext); //Unpack post and Fetch
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -10,6 +21,26 @@ function AddContact({ showAddContact, handleCloseAddContact }) {
   }, [showAddContact]);
 
   if (!showAddContact) return null;
+
+  //Handles change in all input fields
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
+
+  //Save handler
+  const handleSave = () => {
+    console.log("Data to Save", formData);
+    //Post Function?
+    postData(formData);
+    /* fetchData(); */
+    handleCloseAddContact();
+    
+    //Anohter  Fetch to Update?
+  };
 
   return (
     <div 
@@ -51,23 +82,51 @@ function AddContact({ showAddContact, handleCloseAddContact }) {
           ></button>
         </div>
         <div className="row mb-3">
-          <label htmlFor="nameInput" className="form-label"><strong>Full Name</strong></label>
-          <input type="text" className="form-control" id="nameInput" placeholder="Full Name" />
+          <label htmlFor="name" className="form-label"><strong>Full Name</strong></label>
+          <input 
+            type="text" 
+            className="form-control" 
+            id="name" 
+            placeholder="Full Name"
+            value={formData.name}
+            onChange={handleChange}
+          />
         </div>
         <div className="row mb-3">
-          <label htmlFor="emailInput" className="form-label"><strong>Email</strong></label>
-          <input type="email" className="form-control" id="emailInput" placeholder="name@example.com" />
+          <label htmlFor="email" className="form-label"><strong>Email</strong></label>
+          <input 
+            type="email" 
+            className="form-control" 
+            id="email" 
+            placeholder="name@example.com"
+            value={formData.email}
+            onChange={handleChange}
+          />
         </div>
         <div className="row mb-3">
-          <label htmlFor="phoneInput" className="form-label"><strong>Phone</strong></label>
-          <input type="tel" className="form-control" id="phoneInput" placeholder="969969969" />
+          <label htmlFor="phone" className="form-label"><strong>Phone</strong></label>
+          <input 
+            type="tel" 
+            className="form-control" 
+            id="phone" 
+            placeholder="961234567"
+            value={formData.phone}
+            onChange={handleChange}
+          />
         </div>
         <div className="row mb-3">
-          <label htmlFor="addressInput" className="form-label"><strong>Address</strong></label>
-          <input type="text" className="form-control" id="addressInput" placeholder="Your Address here..." />
+          <label htmlFor="address" className="form-label"><strong>Address</strong></label>
+          <input 
+            type="text" 
+            className="form-control" 
+            id="address" 
+            placeholder="Your Address here..."
+            value={formData.address}
+            onChange={handleChange}
+          />
         </div>
         <div className="row py-1">
-          <button className="btn btn-primary me-2 my-3" onClick={handleCloseAddContact}>Save</button>
+          <button className="btn btn-primary me-2 my-3" onClick={handleSave}>Save</button>
           <button className="btn btn-secondary" onClick={handleCloseAddContact}>Close</button>
           {/* Maybe this could do it with Router */}
           <a href="#" onClick={handleCloseAddContact} style={{ textDecoration: 'underline', cursor: 'pointer' }}>
