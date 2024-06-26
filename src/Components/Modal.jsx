@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import MyContext from '../Context/Context';
 
-function Modal({ show, handleClose }) {
+
+function Modal({ show, handleClose, contactId }) {
+  const {deleteContact} = useContext(MyContext);
+
+  const handleDelete = () =>{
+    deleteContact(contactId);
+    handleClose();
+  }
+
+
   return (
     <div className={`modal ${show ? 'show' : ''}`} style={{ display: show ? 'block' : 'none' }} tabIndex="-1">
       <div className="modal-dialog">
@@ -14,7 +24,7 @@ function Modal({ show, handleClose }) {
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-primary" onClick={handleClose}>Oh no!</button>
-            <button type="button" className="btn btn-secondary">Yes baby!</button>
+            <button type="button" className="btn btn-secondary" onClick={handleDelete}>Yes baby!</button>
           </div>
         </div>
       </div>

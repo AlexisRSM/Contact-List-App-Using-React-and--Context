@@ -11,9 +11,17 @@ import AddContact from "./AddContact";
 function Contacts() {
     //Taking care of the State of the modal
     const [showModal,setShowModal] = useState(false);
+    //Store Contact Id to delete
+    const [contactIdToDelete,setToDelete] =useState(""); //string?
     //Fuctions to handle modal
-    const handleShow = () =>setShowModal(true);
-    const handleClose = () =>setShowModal(false);
+    const handleShow = (contactId) =>{
+        setToDelete(contactId)
+        setShowModal(true);
+    }
+    const handleClose = () =>{
+        setShowModal(false);
+        setToDelete(""); //or null?
+    }
 
     //Taking care of the state of the AddContat
     const {showAddContact,setShowAddContact}=useContext(MyContext);
@@ -38,14 +46,14 @@ function Contacts() {
         </div>
         {contacts.map((person)=>{
             return (
-                <div className="row my-2 py-3 border border-secory">
+                <div className="row my-2 py-3 border border-secondary" key={person.id}>
                     <div className="col-3">
                         
                             <img src="https://experteditor.com.au/wp-content/uploads/2023/07/signs-youre-a-great-person.png" className=" img-fluid rounded-circle"/> 
                     </div>
                     <div className="col-3">
                         <h5>
-                            {person.name}  {/* genarete randooom key somewhere */}
+                            {person.name}  {/* genarete randooom key somewhere? */}
                         </h5>
                         <p>
                             <i className="bi bi-geo-alt-fill"> {person.address}</i>
@@ -61,7 +69,7 @@ function Contacts() {
                     <div className="col-3 d-flex justify-content-end px-5">
                         <div className="fs-5">
                             <i className="bi bi-pencil"></i>
-                            <i className="bi bi-trash mx-3" onClick={handleShow}>  
+                            <i className="bi bi-trash mx-3" onClick={()=>handleShow(person.id)}>  
                             </i> 
                         </div>
                     </div>
@@ -69,7 +77,7 @@ function Contacts() {
 
             );
         })}
-        <Modal show={showModal} handleClose={handleClose}/>
+        <Modal show={showModal} handleClose={handleClose} contactId={contactIdToDelete}/>
         <AddContact showAddContact={showAddContact} handleCloseAddContact={handleCloseAddContact}/>
     </>
     );

@@ -25,6 +25,30 @@ function App() {
       fetchData();
   };
 
+//Delete
+async function deleteContact (id) {
+  try {
+    const response = await fetch(`${URL}/contacts/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if (response.status === 204) {
+      console.log('Contact deleted successfully.');
+    } else {
+      const response = await response.json();
+      console.log(`Failed to delete contact. Status code: ${response.status}`);
+      console.log(`Response: ${response}`);
+    }
+  } catch (error) {
+    console.error(error); /* experimenting console.error :D */
+  }
+  fetchData();
+}
+
+
   async function fetchData () {
     try{
         const response = await fetch(URL,{
@@ -75,7 +99,7 @@ function App() {
     },[])
   return (
     <>
-      <MyContext.Provider value={{contacts,setContacts,showAddContact, setShowAddContact,handleShowAddContact,handleCloseAddContact,postData}}>
+      <MyContext.Provider value={{contacts,setContacts,showAddContact, setShowAddContact,handleShowAddContact,handleCloseAddContact,postData,deleteContact}}>
         <Contacts/>
 
         <AddContact/>

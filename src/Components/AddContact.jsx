@@ -40,6 +40,7 @@ function AddContact({ showAddContact, handleCloseAddContact }) {
     handleCloseAddContact();
     
     //Anohter  Fetch to Update?
+    fetchData();
   };
 
   return (
@@ -53,7 +54,7 @@ function AddContact({ showAddContact, handleCloseAddContact }) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white', // Ensure the background is white
+        backgroundColor: 'white', 
         zIndex: 1050,
         overflowY: 'auto',
       }}
