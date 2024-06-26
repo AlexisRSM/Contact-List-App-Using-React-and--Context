@@ -4,13 +4,10 @@ import MyContext from '../Context/Context';
 
 function Modal({ show, handleClose, contactId }) {
   const {deleteContact} = useContext(MyContext);
-
   const handleDelete = () =>{
     deleteContact(contactId);
     handleClose();
   }
-
-
   return (
     <div className={`modal ${show ? 'show' : ''}`} style={{ display: show ? 'block' : 'none' }} tabIndex="-1">
       <div className="modal-dialog">

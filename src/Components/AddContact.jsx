@@ -4,14 +4,9 @@ import { useContext } from 'react';
 
 function AddContact({ showAddContact, handleCloseAddContact }) {
   //State for Form
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    address: '', 
-  });
+  /* const {formData,setFormData} = useContext(MyContext); //so se pode chamar uma vez? */
   //Post Method Unpacking
-  const {postData,fetchData} = useContext(MyContext); //Unpack post and Fetch
+  const {postData,fetchData,formData,setFormData,updateContact} = useContext(MyContext); //Unpack post and Fetch
   const formRef = useRef(null);
 
   useEffect(() => {
@@ -34,12 +29,12 @@ function AddContact({ showAddContact, handleCloseAddContact }) {
   //Save handler
   const handleSave = () => {
     console.log("Data to Save", formData);
-    //Post Function?
-    postData(formData);
-    /* fetchData(); */
+    if (formData.id) {  
+      updateContact(formData); 
+    } else {
+      postData(formData);
+    }
     handleCloseAddContact();
-    
-    //Anohter  Fetch to Update?
     fetchData();
   };
 
@@ -74,7 +69,7 @@ function AddContact({ showAddContact, handleCloseAddContact }) {
         }}
       >
         <div className="row text-center mb-3">
-          <h1>Add New Contact</h1>
+          <h1>{formData.id ? "Edit Contact" : "Add New Contact"}</h1>
           <button 
             type="button" 
             className="btn-close" 
@@ -127,7 +122,7 @@ function AddContact({ showAddContact, handleCloseAddContact }) {
           />
         </div>
         <div className="row py-1">
-          <button className="btn btn-primary me-2 my-3" onClick={handleSave}>Save</button>
+          <button className="btn btn-primary me-2 my-3" onClick={handleSave}>{formData.id ? "Update" : "Save"}</button>
           <button className="btn btn-secondary" onClick={handleCloseAddContact}>Close</button>
           {/* Maybe this could do it with Router */}
           <a href="#" onClick={handleCloseAddContact} style={{ textDecoration: 'underline', cursor: 'pointer' }}>

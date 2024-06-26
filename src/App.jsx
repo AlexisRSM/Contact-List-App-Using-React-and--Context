@@ -2,29 +2,64 @@ import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-
 import Contacts from './Components/Contacts'
-/* import TalkToAPI from './Components/Talk_to_API' */
 import MyContext from './Context/Context'
 import AddContact from './Components/AddContact'
 
-//-----------------------------------Fetch Data-------------------------------------------------
 function App() {
   const URL = "https://playground.4geeks.com/contact/agendas/Ralfe"; 
+  
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    address: '', 
+  });
+
   const [contacts,setContacts]= useState([]);
 
   //AddContact.jsx handlers 
   const [showAddContact, setShowAddContact] = useState(false);
 
   const handleShowAddContact = () => {
-      setShowAddContact(true);
+    setFormData({  // ######Added
+      name: '',
+      phone: '',
+      email: '',
+      address: '',
+    });
+    
+    setShowAddContact(true);
   };
 
   const handleCloseAddContact = () => {
       setShowAddContact(false);
       fetchData();
   };
+  //Edit Contact
+  const handleEditContact = (contact) => {  // ######Added
+    setFormData(contact);  // ######Added
+    setShowAddContact(true);  // ######Added
+  };
 
+//Update ###Added
+async function updateContact (formData){ 
+  try {
+    const response = await fetch(`${URL}/contacts/${formData.id}`, {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  } catch (error) {
+    console.log("On PostData Function: ", error);
+  }
+  fetchData();
+}
 //Delete
 async function deleteContact (id) {
   try {
@@ -47,7 +82,6 @@ async function deleteContact (id) {
   }
   fetchData();
 }
-
 
   async function fetchData () {
     try{
@@ -90,18 +124,13 @@ async function deleteContact (id) {
     }
   }
 
-
-
-
     useEffect(()=>{
       fetchData();
-
     },[])
   return (
     <>
-      <MyContext.Provider value={{contacts,setContacts,showAddContact, setShowAddContact,handleShowAddContact,handleCloseAddContact,postData,deleteContact}}>
+      <MyContext.Provider value={{contacts,setContacts,showAddContact, setShowAddContact,handleShowAddContact,handleCloseAddContact,postData,deleteContact,formData,setFormData,handleEditContact,updateContact}}>
         <Contacts/>
-
         <AddContact/>
       </MyContext.Provider>
     </>
